@@ -25,6 +25,10 @@ public class KafkaConsumerConfig {
         configs.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringDeserializer");
         configs.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
 
+        // 순서 보장을 위한 추가 설정
+        configs.put(ConsumerConfig.MAX_POLL_RECORDS_CONFIG, 1); // 한번에 하나의 메시지 처리
+        configs.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, false); // 수동 커밋
+        configs.put(ConsumerConfig.ISOLATION_LEVEL_CONFIG, "read_committed"); // 트랜젝션이 활성화된 producer 에서 commit 된 메시지만 읽음
         return new KafkaConsumer<>(configs);
     }
 }
